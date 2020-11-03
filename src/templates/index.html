@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div class="">
+                <div class="">      
+                    <div class="preview">
+                        <div class="preview_content"> 
+                            <div class="contains">
+                                <div class="svg_contains">
+                                    <div class="time_contains">
+                                        <svg class="datetime" preserveAspectRatio="none" viewBox="0 0 0 540">
+                                            <text class="text" :class="getBackgroundClassName(backgroundLength - (n-1))" v-for="n of backgroundLength" text-anchor="middle" x="50%" y="50%">[[ text ]]</text>
+                                            <text class="text foreground" text-anchor="middle" x="50%" y="50%">[[ text ]]</text>   
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <input name="text-type" type="radio" id="one" value="DateTime" v-model="picked" v-on:change="text_type_change" >
+                    <label for="one">現在日時</label>
+                    <br>
+                    <input name="text-type" type="radio" id="two" value="Stopwatch" v-model="picked" v-on:change="text_type_change" >
+                    <label for="two">ストップウォッチ</label>
+                    <br>
+                    <input name="text-type" type="radio" id="three" value="Timer" v-model="picked" v-on:change="text_type_change" >
+                    <label for="three">タイマー</label>
+                    <br>
+                    <span>Picked: [[ picked ]]</span>
+                </div>
+                <div class="save_contains">
+                    <form method="post" action="/download">
+                        <button type="submit" >データをダウンロード</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer">
+                <p>2020 ©ぱんじすた</p>
+            </div>
+        </div>
+    </body>
+    <script>
+        
+        var loop;
+
+        $(function(){
+
+            function datetime_update() {
+                var date = new Date();
+                app.text = ""+('00' + date.getHours()).slice(-2)+":" + ('00' + date.getMinutes()).slice(-2)+":" + ('00' + date.getSeconds()).slice(-2);
+            }
+                        
+
+            $('svg.datetime')[0].setAttribute("viewBox","0 0 1920 270");
+
+            var app = new Vue({
+                el: '#app',
+                delimiters: ['[[', ']]'],
+                data: {
+                    text: "aiueo",
+                    backgroundLength: 3,
+                    text_type: "DateTime",
+                    text_type_change: function(event) {
+                        clearInterval(loop);
+                        var types = document.getElementsByName("text-type");
+                        for(var i = 0; i < types.length; i++){
+                            if(types[i].checked) {
+                                var val = types[i].getAttribute("value");
+                                switch(val) {
+                                    case "DateTime":
+                                        datetime_update();
+                                        loop = setInterval(datetime_update, 1000);
+                                        break;
+                                    case "Stopwatch":
+                                        app.text = "00:00:00";
+                                        break;
+                                    case "Timer":
+                                        app.text = "00:03:00";
+                                        break;
+                                    case "Other":
+                                        app.text = "なんでもええで。";
+                                        break;
+                                }
+                                console.log("選択された値：", types[i].value);
+                                break;
+                            }
+                        }
+                    },
+                    picked: "",
+                    getBackgroundClassName: function(number) {
+                        return "background" + ('00' + number).slice(-2);
+                    }
+                }
+            });
+            datetime_update();
+            loop = setInterval(datetime_update, 1000);
+        });
+    </script>
+</html>

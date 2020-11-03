@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+}
+
+body {
+    background-color: #ddd;
+}
+.svg_contains {
+    --cell-size: 3vw;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+    background: linear-gradient(45deg, #707070 25%, transparent 25%, transparent 75%, #707070 75%), linear-gradient(45deg, #707070 25%, transparent 25%, transparent 75%, #707070 75%); /*チェスの色1色目*/
+    background-color: #c3c3c3; /*チェスの色2色目*/
+    background-position: 0 0, calc(var(--cell-size) / 2) calc(var(--cell-size) / 2);
+    background-size: var(--cell-size) var(--cell-size);
+}
+.time_contains {
+    filter:
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    drop-shadow(1px 1px 0 rgb(19, 37, 46))
+    ;
+}
+text.text { 
+    font-family: 'UD デジタル 教科書体 NK-B';
+    font-size: 60px;
+}
+
+text.foreground {
+    fill: rgb(221, 65, 65);
+}
+
+text.background01 {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 12px;
+    stroke-linejoin: round;
+}
+
+text.background02 {
+    stroke: rgb(19, 37, 46);
+    stroke-width: 24px;
+    stroke-linejoin: round;
+}
+
+.footer {
+    transform: rotate(0.028deg);
+    font-size: 10px;
+    position: fixed;
+    bottom: 0;
+}

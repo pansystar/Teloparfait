@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="data/default.js"></script>
+        <link rel="stylesheet" href="data/pink.css">
+    </head>
+    <body>
+        <div class="contains">
+            <svg viewBox="0 0 3840 540">
+                <text class="text" text-anchor="middle" x="1920" y="270"></text>
+            </svg>            
+        </div>
+    </body>
+    <script>
+        var dateFormat = {
+            _fmt : {
+                "yyyy": function(date) { return date.getFullYear() + ''; },
+                "MM": function(date) { return ('0' + (date.getMonth() + 1)).slice(-2); },
+                "dd": function(date) { return ('0' + date.getDate()).slice(-2); },
+                "hh": function(date) { return ('0' + date.getHours()).slice(-2); },
+                "mm": function(date) { return ('0' + date.getMinutes()).slice(-2); },
+                "ss": function(date) { return ('0' + date.getSeconds()).slice(-2); }
+            },
+            _priority : ["yyyy", "MM", "dd", "hh", "mm", "ss"],
+            format: function(date, format){
+                return this._priority.reduce((res, fmt) => res.replace(fmt, this._fmt[fmt](date)), format)
+            }
+        };
+
+        $(function(){
+            var cssJson = getCSSJson();            
+            var origin = $('.text');
+            var parent = origin.parent();        
+            var clone;
+            for(var i=0;i<3;i++){
+                clone = origin.clone();
+                clone.addClass("background"+('00'+i).slice(-2));
+                clone.appendTo(parent);
+            }
+                    
+            clone = origin.clone();
+            clone.addClass("foreground");
+            clone.appendTo(parent);
+
+            function update(){
+                $('.text').html(dateFormat.format(new Date(), 'hh:mm:ss'));
+                setTimeout(update, 1000);
+            }
+            update();
+        });        
+    </script>
+</html>
