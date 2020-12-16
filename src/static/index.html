@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="js/teloperfait.utility.js"></script>
+        <script src="js/teloperfait.datetime.js"></script>
+        <script src="js/teloperfait.stopwatch.js"></script>
+        <script src="js/teloperfait.timer.js"></script>
+        <script src="js/jquery-3.5.1.min.js"></script>
+    </head>
+    <body>
+        <div class="contains">
+            <svg viewBox="0 0 500 270">
+                <text class="text" text-anchor="middle" x="400" y="270">あいう</text>
+            </svg>            
+        </div>
+    </body>
+    
+    <script>
+        $(function(){
+            var hoge = new DateTime();
+
+            var origin = $('.text');
+            var parent = origin.parent();        
+            var clone;
+            for(var i=0;i<3;i++){
+                clone = origin.clone();
+                clone.addClass("background"+('00'+i).slice(-2));
+                clone.appendTo(parent);
+            }
+                    
+            clone = origin.clone();
+            clone.addClass("foreground");
+            clone.appendTo(parent);
+
+            setInterval(() => {
+                hoge.update();
+                $('.text').html(hoge.getText());
+            }, 200);
+        });
+    </script>
+</html>
