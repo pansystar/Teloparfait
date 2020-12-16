@@ -13,15 +13,15 @@ def download():
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED, False) as zip_file:
         base = os.path.dirname(os.path.abspath(__file__))
         name = os.path.normpath(os.path.join(base, 'index.html'))
-        print(name)
-        print(os.path.isfile(name))
-        zip_file.write(name)
+        zip_file.write(os.path.normpath(os.path.join(base, 'index.html')), "index.html")
        
     zip_buffer.seek(0)
     # return send_file("data\\Teloparfait_yyyyMMdd.zip", as_attachment = True, \
     #     attachment_filename = "Teloparfait_yyyyMMdd.zip", \
     #     mimetype="application/zip")
-    return send_file(zip_buffer, mimetype="application")
+    return send_file(zip_buffer, as_attachment = True, \
+         attachment_filename = "Teloparfait_yyyyMMdd.zip", \
+         mimetype="application")
 
 @app.route("/")
 def root():
